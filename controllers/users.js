@@ -18,6 +18,8 @@ const {
   BAD_USER_UPDATE_REQUEST,
   AUTHORIZATION_ERROR,
   LOGOUT,
+  CASTOM_ERROR,
+  BAD_USER_INFO,
 } = require('../utils/constants');
 
 const getCurrentUser = (req, res, next) => {
@@ -55,13 +57,12 @@ const createUser = (req, res, next) => {
     });
 };
 
-updateCurrentUser = (req, res, next) => {
+const updateCurrentUser = (req, res, next) => {
   const { name, email } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, email },
-    {
-      runValidators: true,
-      new: true,
-    })
+  User.findByIdAndUpdate(req.user._id, { name, email }, {
+    runValidators: true,
+    new: true,
+  })
     .then((user) => {
       if (!user) {
         throw new NotFoundError(USER_NOT_FOUND_BY_ID);
