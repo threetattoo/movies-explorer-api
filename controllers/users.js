@@ -20,19 +20,26 @@ const {
   LOGOUT,
   CASTOM_ERROR,
   BAD_USER_INFO,
+  BAD_USER_ID,
 } = require('../utils/constants');
 
 const getCurrentUser = (req, res, next) => {
-  User.findById(req.user._id)
+  const id = req.user._id;
+  User.findById(id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError(USER_NOT_FOUND);
+        throw new NotFoundError(USER_NOT_FOUND_BY_ID);
       }
-      return res.send(user);
+      return res.status(200).send(user);
     })
     .catch((err) => {
-      next(err);
-    });
+      if (err.name === CASTOM_ERROR) {
+        throw new IncorrectDataError(BAD_USER_ID);
+      } else {
+        next(err);
+      }
+    })
+    .catch(next);
 };
 
 const createUser = (req, res, next) => {
@@ -83,9 +90,11 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id },
+      const token = jwt.sign(
+        { _id: user._id },
         JWT_SECRET, //NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
-        { expiresIn: '7d' });
+        { expiresIn: '7d' },
+      );
       res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true }).send({ token });
     })
     .catch(() => {

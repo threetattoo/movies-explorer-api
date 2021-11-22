@@ -5,6 +5,7 @@ const WRONG_URL_FORMAT = 'Неверный формат URL.';
 const USER_NOT_FOUND = 'Пользователь не найден';
 const EMAIL_ALREADY_EXIST = 'Пользователь с таким email уже существует';
 const BAD_USER_INFO = 'Переданы некорректные данные при создании пользователя.';
+const BAD_USER_ID = 'Передан некорректный id пользователя.';
 const VALIDATION_ERROR = 'ValidationError';
 const CASTOM_ERROR = 'CastError';
 const USER_NOT_FOUND_BY_ID = 'Пользователь с переданным _id не найден.';
@@ -27,6 +28,7 @@ module.exports = {
   USER_NOT_FOUND,
   EMAIL_ALREADY_EXIST,
   BAD_USER_INFO,
+  BAD_USER_ID,
   VALIDATION_ERROR,
   CASTOM_ERROR,
   USER_NOT_FOUND_BY_ID,
