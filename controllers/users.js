@@ -16,7 +16,7 @@ const {
   VALIDATION_ERROR,
   USER_NOT_FOUND_BY_ID,
   BAD_USER_UPDATE_REQUEST,
-  AUTHORIZATION_ERROR,
+  AUTHORIZATION_ERROR_MESSAGE,
   LOGOUT,
   CASTOM_ERROR,
   BAD_USER_INFO,
@@ -89,7 +89,7 @@ const login = (req, res, next) => {
       res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true }).send({ token });
     })
     .catch(() => {
-      throw new AuthorizationError(AUTHORIZATION_ERROR);
+      throw new AuthorizationError(AUTHORIZATION_ERROR_MESSAGE);
     })
     .catch(next);
 };
