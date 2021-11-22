@@ -16,6 +16,7 @@ const BAD_MOVIE_INFO = 'Переданы некорректные данные �
 const MOVIE_NOT_FOUND_BY_ID = 'Фильм с переданным _id не найден.';
 const CANT_DELETE_MOVIE = 'Нельзя удалять фильмы другого пользователя.';
 const MOVIE_SUCCESSFULLY_DELETED = 'Фильм успешно удален.';
+const SERVER_ERROR = 'На сервере произошла ошибка.';
 
 module.exports = {
   WRONG_EMAIL_FORMAT,
@@ -36,4 +37,5 @@ module.exports = {
   MOVIE_NOT_FOUND_BY_ID,
   CANT_DELETE_MOVIE,
   MOVIE_SUCCESSFULLY_DELETED,
+  SERVER_ERROR,
 };
