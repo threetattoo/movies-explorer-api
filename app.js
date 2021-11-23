@@ -11,7 +11,7 @@ const limiter = require('./middlewares/limiter');
 const ALLOWED_CORS = require('./utils/cors-options');
 const {
   PORT_DEV,
-  MONGODB_URL,
+  MONGODB_URL_DEV,
 } = require('./config');
 
 const router = require('./routes/index');
@@ -22,11 +22,11 @@ app.use(cors({
   origin: ALLOWED_CORS,
 }));
 
-const { PORT = PORT_DEV } = process.env;
+const { NODE_ENV, PORT = PORT_DEV, MONGODB_URL } = process.env;
 
 app.use(helmet());
 
-mongoose.connect(MONGODB_URL, {
+mongoose.connect(NODE_ENV === 'production' ? MONGODB_URL : MONGODB_URL_DEV, {
   useNewUrlParser: true,
 });
 

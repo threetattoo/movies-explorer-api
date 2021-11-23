@@ -13,3 +13,7 @@
 
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload
+
+Ссылка на бекенд проекта - https://api.threetattoo-diploma.nomoredomains.rocks
+
+Публичный ip проекта - 51.250.25.152
