@@ -1,14 +1,14 @@
-//const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
+const { JWT_SECRET_DEV } = require('../config');
 
 const AuthorizationError = require('../errors/authorization-error');
 const ExistingDataError = require('../errors/existing-data-error');
 const IncorrectDataError = require('../errors/incorrect-data-error');
 const NotFoundError = require('../errors/not-found-error');
-
-const { JWT_SECRET } = require('../config');
 
 const {
   USER_NOT_FOUND,
@@ -96,7 +96,7 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        JWT_SECRET, //NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
+        NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV,
         { expiresIn: '7d' },
       );
       res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true }).send({ token });

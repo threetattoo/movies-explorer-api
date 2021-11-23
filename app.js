@@ -10,7 +10,7 @@ const { errorHandler } = require('./middlewares/errorHandler');
 const limiter = require('./middlewares/limiter');
 const ALLOWED_CORS = require('./utils/cors-options');
 const {
-  PORT,
+  PORT_DEV,
   MONGODB_URL,
 } = require('./config');
 
@@ -21,6 +21,8 @@ const app = express();
 app.use(cors({
   origin: ALLOWED_CORS,
 }));
+
+const { PORT = PORT_DEV } = process.env;
 
 app.use(helmet());
 
