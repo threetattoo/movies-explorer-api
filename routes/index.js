@@ -10,6 +10,7 @@ const { signupValidation, loginValidation } = require('../middlewares/validation
 router.all('/', auth);
 router.post('/signin', loginValidation, login);
 router.post('/signup', signupValidation, createUser);
+router.use(auth);
 router.post('/signout', logout);
 router.use(auth, usersRouter);
 router.use(auth, moviesRouter);
