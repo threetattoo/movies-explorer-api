@@ -20,9 +20,6 @@ const getMovies = (req, res, next) => {
     .then((movies) => {
       res.status(200).send(movies);
     })
-    .catch((err) => {
-      throw new NotFoundError(err.message);
-    })
     .catch(next);
 };
 
@@ -34,12 +31,13 @@ const createMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === VALIDATION_ERROR) {
-        throw new IncorrectDataError(BAD_MOVIE_INFO);
+        next(new IncorrectDataError(BAD_MOVIE_INFO));
       } else if (err.code === 11000) {
-        throw new ExistingDataError(MOVIE_ALREADY_EXIST);
+        next(new ExistingDataError(MOVIE_ALREADY_EXIST));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 const deleteMovie = (req, res, next) => {
@@ -54,7 +52,7 @@ const deleteMovie = (req, res, next) => {
         throw new ForbiddenError(CANT_DELETE_MOVIE);
       } else {
         Movie.findByIdAndDelete(movieId)
-          .then((deletedMovie) => {
+          .then(() => {
             res.status(200).send(MOVIE_SUCCESSFULLY_DELETED);
           })
           .catch(next);

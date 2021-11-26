@@ -10,7 +10,7 @@ const VALIDATION_ERROR = 'ValidationError';
 const CASTOM_ERROR = 'CastError';
 const USER_NOT_FOUND_BY_ID = 'Пользователь с переданным _id не найден.';
 const BAD_USER_UPDATE_REQUEST = 'При обновлении профиля пользователя были переданны некорректные данные.';
-const AUTHORIZATION_ERROR_MESSAGE = 'Передан неверный логин или пароль.';
+const AUTHORIZATION_ERROR_MESSAGE = 'Неверная авторизация.';
 const LOGOUT = 'Вы покинули сайт.';
 const MOVIE_ALREADY_EXIST = 'Такой фильм уже существует.';
 const BAD_MOVIE_INFO = 'Переданы некорректные данные при создании фильма.';
@@ -19,6 +19,7 @@ const CANT_DELETE_MOVIE = 'Нельзя удалять фильмы другог
 const MOVIE_SUCCESSFULLY_DELETED = 'Фильм успешно удален.';
 const SERVER_ERROR = 'На сервере произошла ошибка.';
 const RESOURCE_NOT_FOUND = 'Запрошенный ресурс не найден.';
+const SERVER_SHUTDOWN = 'Сервер сейчас упадет.';
 
 module.exports = {
   WRONG_EMAIL_FORMAT,
@@ -42,4 +43,5 @@ module.exports = {
   MOVIE_SUCCESSFULLY_DELETED,
   SERVER_ERROR,
   RESOURCE_NOT_FOUND,
+  SERVER_SHUTDOWN,
 };

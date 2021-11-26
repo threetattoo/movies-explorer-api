@@ -9,6 +9,8 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { errorHandler } = require('./middlewares/errorHandler');
 const limiter = require('./middlewares/limiter');
 const ALLOWED_CORS = require('./utils/cors-options');
+const { SERVER_SHUTDOWN } = require('./utils/constants');
+
 const {
   PORT_DEV,
   MONGODB_URL_DEV,
@@ -35,6 +37,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(requestLogger);
 app.use(limiter);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error(SERVER_SHUTDOWN);
+  }, 0);
+});
 
 app.use('/', router);
 

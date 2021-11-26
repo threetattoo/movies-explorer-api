@@ -59,10 +59,10 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        throw new ExistingDataError(EMAIL_ALREADY_EXIST);
+        next(new ExistingDataError(EMAIL_ALREADY_EXIST));
       }
       if (err.name === VALIDATION_ERROR || err.name === CASTOM_ERROR) {
-        throw new IncorrectDataError(BAD_USER_INFO);
+        next(new IncorrectDataError(BAD_USER_INFO));
       }
       return next(err);
     });
@@ -82,9 +82,9 @@ const updateCurrentUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === VALIDATION_ERROR || err.name === CASTOM_ERROR) {
-        throw new IncorrectDataError(BAD_USER_UPDATE_REQUEST);
+        next(new IncorrectDataError(BAD_USER_UPDATE_REQUEST));
       } else if (err.code === 11000) {
-        throw new ExistingDataError(EMAIL_ALREADY_EXIST);
+        next(new ExistingDataError(EMAIL_ALREADY_EXIST));
       }
       next(err);
     });
