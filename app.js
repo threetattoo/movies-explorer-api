@@ -20,9 +20,7 @@ const router = require('./routes/index');
 
 const app = express();
 
-app.use(cors({
-  origin: ALLOWED_CORS,
-}));
+app.use(cors(ALLOWED_CORS));
 
 const { NODE_ENV, PORT = PORT_DEV, MONGODB_URL } = process.env;
 

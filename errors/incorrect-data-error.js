@@ -5,4 +5,4 @@ class IncorrectDataError extends Error {
   }
 }
 
-module.exports = IncorrectDataError;
+module.exports = { IncorrectDataError };
