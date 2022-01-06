@@ -1,13 +1,22 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
-const IncorrectDataError = require('../errors/incorrect-data-error');
+const { IncorrectDataError } = require('../errors/incorrect-data-error');
 const { WRONG_URL_FORMAT } = require('../utils/constants');
-
+/*
 const urlValidation = (url) => {
   const val = validator.isURL(url, { protocols: ['http', 'https'], require_protocol: true });
   if (!val) {
-    throw new IncorrectDataError(WRONG_URL_FORMAT);
+    throw new IncorrectDataError({WRONG_URL_FORMAT});
   }
+};
+*/
+const isURL = require('validator/lib/isURL');
+
+const urlValidation = (value) => {
+  if (!isURL(value)) {
+    throw new CelebrateError(`${value} ${BAD_URL}`);
+  }
+  return value;
 };
 
 const signupValidation = celebrate({

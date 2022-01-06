@@ -5,10 +5,10 @@ const User = require('../models/user');
 const { NODE_ENV, JWT_SECRET } = process.env;
 const { JWT_SECRET_DEV } = require('../config');
 
-const AuthorizationError = require('../errors/authorization-error');
-const ExistingDataError = require('../errors/existing-data-error');
-const IncorrectDataError = require('../errors/incorrect-data-error');
-const NotFoundError = require('../errors/not-found-error');
+const { AuthorizationError } = require('../errors/authorization-error');
+const { ExistingDataError } = require('../errors/existing-data-error');
+const { IncorrectDataError } = require('../errors/incorrect-data-error');
+const { NotFoundError } = require('../errors/not-found-error');
 
 const {
   USER_NOT_FOUND,
@@ -28,13 +28,13 @@ const getCurrentUser = (req, res, next) => {
   User.findById(id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError(USER_NOT_FOUND_BY_ID);
+        throw new NotFoundError({USER_NOT_FOUND_BY_ID});
       }
       return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === CASTOM_ERROR) {
-        throw new IncorrectDataError(BAD_USER_ID);
+        throw new IncorrectDataError({BAD_USER_ID});
       } else {
         next(err);
       }
@@ -59,10 +59,10 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ExistingDataError(EMAIL_ALREADY_EXIST));
+        next(new ExistingDataError({EMAIL_ALREADY_EXIST}));
       }
       if (err.name === VALIDATION_ERROR || err.name === CASTOM_ERROR) {
-        next(new IncorrectDataError(BAD_USER_INFO));
+        next(new IncorrectDataError({BAD_USER_INFO}));
       }
       return next(err);
     });
@@ -76,15 +76,15 @@ const updateCurrentUser = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
-        throw new NotFoundError(USER_NOT_FOUND_BY_ID);
+        throw new NotFoundError({USER_NOT_FOUND_BY_ID});
       }
       return res.send(user);
     })
     .catch((err) => {
       if (err.name === VALIDATION_ERROR || err.name === CASTOM_ERROR) {
-        next(new IncorrectDataError(BAD_USER_UPDATE_REQUEST));
+        next(new IncorrectDataError({BAD_USER_UPDATE_REQUEST}));
       } else if (err.code === 11000) {
-        next(new ExistingDataError(EMAIL_ALREADY_EXIST));
+        next(new ExistingDataError({EMAIL_ALREADY_EXIST}));
       }
       next(err);
     });
@@ -102,7 +102,7 @@ const login = (req, res, next) => {
       res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true }).send({ token });
     })
     .catch(() => {
-      throw new AuthorizationError(AUTHORIZATION_ERROR_MESSAGE);
+      throw new AuthorizationError({AUTHORIZATION_ERROR_MESSAGE});
     })
     .catch(next);
 };
@@ -111,7 +111,7 @@ const logout = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError(USER_NOT_FOUND);
+        throw new NotFoundError({USER_NOT_FOUND});
       }
       return res.clearCookie('jwt').send({ message: LOGOUT });
     })
